@@ -1,0 +1,23 @@
+'''
+ 	converted_keras_AB 타입 구분: 화면 중심에서 224*224 크기의 ROI를 만들어 비교
+	0 A
+	1 B
+'''
+
+import os
+from PIL import Image
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+source = 'D:\\Project\\Data\\A'
+
+os.chdir(source)
+
+for file in os.listdir(source):
+    image = cv2.imread(file)
+    height, weight, channels = image.shape
+    points = int(height/2), int(height/2+224), int(weight/2), int(weight/2+224)
+    roi = image[points[0]:points[1], points[2]:points[3], :]
+    plt.imshow(roi)
+ 
