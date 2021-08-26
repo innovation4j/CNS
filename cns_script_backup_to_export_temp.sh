@@ -7,10 +7,14 @@ source /home/iot/Documents/CNS/cns_script_header.sh
 echo "[start] move file to export_temp"
 src1="$homedir/image_storage/*"
 dst1="$homedir/export_temp/image_storage/"
-mv $src1 $dst1
+#mv $src1 $dst1
+rsync -a $src1 $dst1
+rm -rf $src1
 
 src2="$homedir/logs/*"
 dst2="$homedir/export_temp/logs/"
-mv $src2 $dst2
+#mv $src2 $dst2
+rsync -a $src2 $dst2
+rm -rf $src2
 echo "[done] move file to export_temp"
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
