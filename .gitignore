@@ -2,7 +2,4 @@ export_temp/
 image_storage/
 logs/
 __pycache__/
-20210809.zip
-20210809_mb5_bot_logs.zip
-
-
+*.zip
