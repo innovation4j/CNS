@@ -3,9 +3,9 @@
 source /home/iot/Documents/CNS/cns_script_header.sh
 
 #=============================
-# 4. 각 라즈베리 스트림 서비스 체크, 전체스트림서비스 동작 확인되면 다음으로 진행 아니면 2분 추가 sleep
+# [RPI Running Check]. 각 라즈베리 스트림 서비스 체크, 전체스트림서비스 동작 확인되면 다음으로 진행 아니면 2분 추가 sleep
 # PRD
-echo "4. [start] check restart raspberry pi"
+echo -e "\n[RPI Running Check] [start] check restart raspberry pi"
 url="https://hooks.slack.com/services/................."
 websites_list=""
 for var in {1..7} ; do
@@ -23,7 +23,6 @@ for website in ${websites_list} ; do
     status_code=$(curl --write-out %{http_code} --silent --output ./ -L ${website})
     # 웹 서버 장애인경우
     if [[ "$status_code" -ne 200 ]] ; then
-        echo "rp_status=0"
         break
     # 웹 서버 장애가 아닌경우
     else
@@ -39,15 +38,16 @@ echo $rp_status
 while :
 do
 rp_status_result=`check_rp_status`
+#echo $rp_status_result
     if [ $rp_status_result -eq 1 ] ; then
         echo "RPIs are up"
         break
     else
         rp_status_result=`check_rp_status`
         echo "RPIs are down"
-        sleep 5s
+        sleep 1s
     fi    
     echo $rp_status_result
 done
-echo "4. [done] check restart raspberry pi"
+echo -e "[RPI Running Check] [done] check restart raspberry pi \n"
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
