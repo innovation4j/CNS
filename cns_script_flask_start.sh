@@ -13,7 +13,6 @@ if [ x$app == x$a ]; then
 else
     echo "no flask running server !!!"
     echo "no flask running server !!!"
-    echo "no flask running server !!!"
 fi
 echo "10 [done] run app.py"
 ps -aux | grep app.py

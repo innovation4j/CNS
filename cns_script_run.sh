@@ -2,7 +2,6 @@
 ./cns_script_detection_stop.sh          # S3: Process Stop
 ./cns_script_rpi_power_off.sh           # S2: Raspberry stop - Top
 ./cns_script_flask_stop.sh              # S1: App.py stop - Top
-sleep 5s
 ./cns_script_flask_start.sh             # R1: App.py run - Top
 ./cns_script_rpi_power_on.sh            # R2: Raspberry run - Top
 ./cns_script_backup_to_export_temp.sh   # B1: Bakcup to export_temp
