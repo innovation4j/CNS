@@ -27,7 +27,14 @@ if [ x$app == x$a ]; then
     source /home/iot/Documents/CNS/cns_script_rpi_check.sh
 else
     echo "no flask running server !!!"
-    echo "no flask running server !!!"
+    echo "wait 30 seconds !!!"
+    SET=$(seq 1 30)
+    for i in $SET
+    do
+        sleep 1s
+        echo "$i s"
+    done
+    source /home/iot/Documents/CNS/cns_script_rpi_check.sh
 fi
 sleep 3s
 echo -e "5. [done] power on all raspberry pi \n"
