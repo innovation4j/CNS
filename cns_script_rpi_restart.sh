@@ -7,9 +7,9 @@ source /home/iot/Documents/CNS/cns_script_header.sh
 echo "2. [start] restart raspberry pi"
 # A 이면 라즈베리를 전체 리스타트 실행
 if [ x$app == x$a ]; then
+    echo "yes flask running server !!!"
     curl http://127.0.0.1:5000/reset
 else
-    echo="no flask running server !!!"
     echo="no flask running server !!!"
     echo="no flask running server !!!"
 fi

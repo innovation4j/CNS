@@ -9,6 +9,13 @@ echo "6. [start] move detected image to Azure blob"
 src="$homedir/export_temp/image_storage/$linenumber/$yesterday/detection/"
 dst="remote:\$web/$lln/$yesterday"
 rclone copy $src $dst
+echo "--copy done for yesterday $yesterday detected images"
+
+src2="$homedir/image_storage/$linenumber/$today/detection/"
+dst2="remote:\$web/$lln/$today"
+rclone copy $src2 $dst2
+echo "--copy done for today $today detected images"
+
 ##rclone delete remote:\$web/$linenumber
 #rm -rf $src*
 echo "6. [done] move detected image to Azure blob"
