@@ -12,7 +12,7 @@ if [ x$app == x$a ]; then
 else
     echo "no flask running server !!!"
     echo "wait 10 seconds !!!"
-    SET=$(seq 0 9)
+    SET=$(seq 1 10)
     for i in $SET
     do
         sleep 1s

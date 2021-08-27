@@ -11,7 +11,13 @@ if [ x$app == x$a ]; then
     echo $SUDOPW | sudo -S systemctl stop plotter_runner
 else
     echo "no flask running server !!!"
-    echo "no flask running server !!!"
+    echo "wait 10 seconds !!!"
+    SET=$(seq 1 10)
+    for i in $SET
+    do
+        sleep 1s
+        echo "$i s"
+    done
 fi
 sleep 3s
 echo -e "3. [done] App.py 프로세스 종료 \n"
