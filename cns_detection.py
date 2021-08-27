@@ -181,7 +181,7 @@ def objectProcessingSimple(objectFr):
     CNS.LOG(equipmentId, settingSource[0], f'[4]	Continued ')
     # distance
 
-    printLead = (1080-objectFr[1])*settingValue[1] + 1000
+    printLead = (1080-objectFr[1])*settingValue[1] + 700
     printTime = round( ( printLead / 0.333 ) / 1000, 1)  #초로 변환
     printPositionVal = settingValue[0] + round((objectFr[0])*settingValue[1])# objectX + camera position value 
 
@@ -355,8 +355,8 @@ while success:
             print(f'Type B : {round(float(result[0][1])*100,3)}%' )
             print(f'startedTime......{startedTime}' )        
         elif (round(float(result[0][0]),3) <= 0.50):
-            type_AB = "B"
-            #type_AB = "A"
+            #type_AB = "B"
+            type_AB = "A"
             startedTime = datetime.datetime.now()
             print(f'Type A : {round(float(result[0][0])*100,3)}%' )
             print(f'Type B : {round(float(result[0][1])*100,3)}% {type_AB}' )
@@ -411,7 +411,7 @@ while success:
             
             time_0 = datetime.datetime.now()
 
-            if( objectFr[5] > 0.95 ):
+            if( objectFr[5] > 0.92 ):
                 find = True
                 trackCount = 0
                 x, y, w, h, size = objectFr[0], objectFr[1], objectFr[2], objectFr[3], objectFr[4]
@@ -450,7 +450,7 @@ while success:
                     time.sleep(3)
                     CNS.LOG(equipmentId, settingSource[0], f'[11]	Sleep Done')
             
-            if ( 0.70 < objectFr[5] <= 0.95):
+            if ( 0.70 < objectFr[5] <= 0.92):
                 find = True
                 trackCount = 0
                 x, y, w, h, size = objectFr[0], objectFr[1], objectFr[2], objectFr[3], objectFr[4]
