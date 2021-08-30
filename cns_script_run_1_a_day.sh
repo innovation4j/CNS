@@ -8,9 +8,8 @@
 /home/iot/Documents/CNS/cns_script_detection_start.sh       # 7. R3: Process Start
 
 # 1회/Hour xx:00:00 | A1
-/home/iot/Documents/CNS/cns_script_send_img_to_azure.sh     # A1: Export Azure - image
+#/home/iot/Documents/CNS/cns_script_send_img_to_azure.sh     # A1: Export Azure - image
 #/home/iot/Documents/CNS/cns_script_send_log_to_azure.sh     # A1: Export Azure - log
-# DB에 중복으로 입력 됨
 
 /home/iot/Documents/CNS/cns_script_send_file_to_nas.sh      # A2: NAS Copy
 #/home/iot/Documents/CNS/cns_script_delete_temp_file.sh      # A3: Delete -2 Day temp file

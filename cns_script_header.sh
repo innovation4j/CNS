@@ -14,6 +14,8 @@ today=$(date "+%Y%m%d")
 #echo today=$today
 yesterday=$(date -d yesterday +%Y%m%d)
 #echo yesterday=$yesterday
+hms=$(date "+%H%M%S")
+#echo hms=$hms
 
 
 #서버이름변경 명령어

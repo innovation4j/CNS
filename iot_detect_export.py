@@ -11,7 +11,7 @@ if len(sys.argv) == 3:
     cursor = conn.cursor()
 
 
-    f = open(f"logs/{equipmentId}/{today}/EXP/EXP_{equipmentId}_{today}.log", 'r') #'/home/iot/Documents/CNS/' 
+    f = open(f"logs/{equipmentId}/{today}/EXP/{today}_{equipmentId}_EXP.log", 'r') #'/home/iot/Documents/CNS/logs/mb5/20210830/EXP/20210830_mb5_EXP.log' 
     
     while True:
         line = f.readline()
