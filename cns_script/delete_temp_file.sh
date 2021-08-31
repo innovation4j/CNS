@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /home/iot/Documents/CNS/cns_script_header.sh
+source /home/iot/Documents/CNS/cns_script/header.sh
 
 #=============================
 # 8. cns_script_delete_temp_file

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /home/iot/Documents/CNS/cns_script_header.sh
+source /home/iot/Documents/CNS/cns_script/header.sh
 
 #=============================
 # 6. 각 워크스테이션의 하루전날 감지이미지를 Azure Storage로 옮긴다. 원본삭제

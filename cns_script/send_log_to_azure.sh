@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /home/iot/Documents/CNS/cns_script_header.sh
+source /home/iot/Documents/CNS/cns_script/header.sh
 
 
 #=============================

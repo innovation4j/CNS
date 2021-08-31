@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /home/iot/Documents/CNS/cns_script_header.sh
+source /home/iot/Documents/CNS/cns_script/header.sh
 
 #=============================
 # 8. 각 워크스테이션에 이미지를 NAS로 copy.

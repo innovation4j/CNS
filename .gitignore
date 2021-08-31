@@ -3,3 +3,4 @@ image_storage/
 logs/
 __pycache__/
 *.zip
+cns_script_log/
