@@ -4,7 +4,7 @@ source /home/iot/Documents/CNS/cns_script/header.sh
 
 #=============================
 # 4. App.pyy 프로세스 실행 - A 이면 app.py 실행
-echo -e "\n$today $hms 4. [start] run flask app.py"
+echo -e "\n$today $hms [start] run flask app.py"
 if [ x$app == x$a ]; then
     echo "$today $hms yes flask running server !!!"
     #/home/iot/anaconda3/bin/python $homedir/app.py &
@@ -20,7 +20,7 @@ else
         echo "$today $hms $i s"
     done
 fi
-echo -e "$today $hms 4 [done] run flask app.py \n"
+echo -e "$today $hms [done] flask_start.sh \n"
 sleep 3s
 ps -aux | grep app.py
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

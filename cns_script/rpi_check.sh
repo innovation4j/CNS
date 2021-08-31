@@ -5,7 +5,7 @@ source /home/iot/Documents/CNS/cns_script/header.sh
 #=============================
 # [RPI Running Check]. 각 라즈베리 스트림 서비스 체크, 전체스트림서비스 동작 확인되면 다음으로 진행 아니면 2분 추가 sleep
 # PRD
-echo -e "\n$today $hms [RPI Running Check] [start] check restart raspberry pi"
+echo -e "\n$today $hms [start] rpi_check.sh"
 url="https://hooks.slack.com/services/................."
 websites_list=""
 for var in {1..7} ; do
@@ -49,5 +49,5 @@ rp_status_result=`check_rp_status`
     fi    
     echo $rp_status_result
 done
-echo -e "$today $hms [RPI Running Check] [done] check restart raspberry pi \n"
+echo -e "$today $hms [done] rpi_check.sh \n"
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

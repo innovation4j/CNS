@@ -4,7 +4,7 @@ source /home/iot/Documents/CNS/cns_script/header.sh
 
 #=============================
 # 5. 라즈베리를 전체 리스타트
-echo -e "\n$today $hms 5-3. [start] restart raspberry pi"
+echo -e "\n$today $hms [start] rpi_restart.sh"
 # Flask 구동서버가 맞으면 라즈베리를 전체 reset 실행
 if [ x$app == x$a ]; then
     echo "$today $hms yes flask running server !!!"
@@ -37,5 +37,5 @@ else
     source $shomedir/rpi_check.sh
 fi
 sleep 3s
-echo -e "$today $hms 5-3. [done] power on all raspberry pi \n"
+echo -e "$today $hms [done] rpi_restart.sh \n"
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -4,7 +4,7 @@ source /home/iot/Documents/CNS/cns_script/header.sh
 
 #=============================
 # 2. 라즈베리 전체 전원 off
-echo -e "\n$today $hms 2. [start] power off all raspberry pi"
+echo -e "\n$today $hms [start] rpi_power_off.sh"
 # Flask 구동서버가 맞으면 라즈베리 전체 전원 Off 실행
 if [ x$app == x$a ]; then
     echo "$today $hms yes flask running server !!!"
@@ -20,5 +20,5 @@ else
     done
 fi
 sleep 3s
-echo -e "\n$today $hms 2. [done] power off all raspberry pi \n"
+echo -e "\n$today $hms [done] rpi_power_off.sh \n"
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
