@@ -12,7 +12,7 @@ $shomedir/rpi_power_on.sh           &>> $lhomedir/cns_script_log_$sln$app"_"$tod
 $shomedir/move_to_export_temp.sh    &>> $lhomedir/cns_script_log_$sln$app"_"$today.out  # 6. B1: Bakcup to export_temp
 $shomedir/detection_start.sh        &>> $lhomedir/cns_script_log_$sln$app"_"$today.out  # 7. R3: Process Start
 
-$shomedir/send_file_to_nas.sh       >> $llhomedir/cns_script_log_$today.out # A2: NAS Copy
+$shomedir/send_file_to_nas.sh       &>> $lhomedir/cns_script_log_$sln$app"_"$today.out  # A2: NAS Copy
 #$shomedir/delete_temp_file.sh      # A3: Delete -2 Day temp file
 
 #$shomedir/detection_restart.sh
