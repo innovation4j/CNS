@@ -59,8 +59,8 @@ global prediction, predictionResult, data, model_AB, model
 np.set_printoptions(suppress=True)
 # keras Load the model
 #model = tensorflow.keras.models.load_model('model_NP.h5') #model_NP
-model = tensorflow.keras.models.load_model('keras_model_20210828.h5')
-model_AB = tensorflow.keras.models.load_model('model_AB_20210813.h5')
+model = tensorflow.keras.models.load_model('keras_model_20210824.h5')
+model_AB = tensorflow.keras.models.load_model('model_AB_20210828.h5')
 #model_AB = tensorflow.keras.models.load_model('model_AB.h5')
 # Create the array of the right shape
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
