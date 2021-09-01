@@ -100,7 +100,7 @@ def validationInput(inputArr):
     mkdir(today)
 
     return True
-print(f'#1 InputValidation Stand By......123' )
+print(f'#1 InputValidation Stand By......' )
 
 
 
@@ -183,7 +183,25 @@ def objectProcessingSimple(objectFr):
 
     printLead = (1080-objectFr[1])*settingValue[1] + 700
     printTime = round( ( printLead / 0.333 ) / 1000, 1)  #초로 변환
-    printPositionVal = settingValue[0] + round((objectFr[0])*settingValue[1])# objectX + camera position value 
+
+    if equipmentId == "mb3":
+        if ( settingSource[0] in ("t1","t2","t3") ):
+            printPositionVal = settingValue[0] + round((objectFr[0])*settingValue[1])# objectX + camera position value 
+        elif ( settingSource[0] in ("b1","b2","b3","b4") ):
+            printPositionVal = settingValue[0] + round((1920-objectFr[0])*settingValue[1])
+            #b1의 경우 0 부터 시작하고 450mm 레인지임 이고 X축이 0에서 얼마나 떨어져 있는지 설정해야 함
+            #X가 500px일 경우 1920에서 500을뺀 나머지 1420을 mm로 환산해서 셋팅해야함
+            #X가 500px일 경우 1420*0.21 = 298mm , 298mm+0mm 298mm이므로 플로터는 298mm로 이동해야 함.
+    elif equipmentId in ( "mb4", "mb5","mb5"):
+        if ( settingSource[0] in ("t1","t2","t3") ):
+            printPositionVal = settingValue[0] + round((objectFr[0])*settingValue[1])# objectX + camera position value 
+        elif ( settingSource[0] in ("b1","b2","b3","b4") ):
+            #b1의 경우 100 부터 시작하고 400mm 레인지임 이고 X축이 100에서 얼마나 떨어져 있는지 설정해야 함
+            #X가 500px일 경우 1920에서 500을뺀 나머지 1420을 mm로 환산해서 100에 더해줘야 함.
+            #X가 500px일 경우 1420*0.21 = 298mm , 100mm+298mm 398mm이므로 플로터는 398mm로 이동해야 함.
+            printPositionVal = settingValue[0] + round((1920-objectFr[0])*settingValue[1])
+    else :
+        return False
 
     CNS.LOG(equipmentId, settingSource[0], f'[4-2]	PrintInfo	printTime	{printTime}	Position	{printPositionVal} ')
 
@@ -355,8 +373,8 @@ while success:
             print(f'Type B : {round(float(result[0][1])*100,3)}%' )
             print(f'startedTime......{startedTime}' )        
         elif (round(float(result[0][0]),3) <= 0.50):
-            #type_AB = "B"
-            type_AB = "A"
+            type_AB = "B"
+            #type_AB = "A"
             startedTime = datetime.datetime.now()
             print(f'Type A : {round(float(result[0][0])*100,3)}%' )
             print(f'Type B : {round(float(result[0][1])*100,3)}% {type_AB}' )
@@ -449,6 +467,8 @@ while success:
                     #cv2.imshow('Input', frame)
                     time.sleep(3)
                     CNS.LOG(equipmentId, settingSource[0], f'[11]	Sleep Done')
+                else:
+                    CNS.LOG(equipmentId, settingSource[0], f'[99]	PrintError')
             
             if ( 0.70 < objectFr[5] <= 0.92):
                 find = True
