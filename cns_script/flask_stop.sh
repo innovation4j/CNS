@@ -8,6 +8,7 @@ echo -e "\n$today $hms [start] flask_stop.sh"
 if [ x$app == x$a ]; then
     echo "$today $hms yes flask running server !!!"
     #sudo ps -ef | grep app.py | awk '{print $2}' | xargs kill -9
+    echo "$today $hms XXXXXX | sudo -S systemctl stop plotter_runner"
     echo $SUDOPW | sudo -S systemctl stop plotter_runner
 else
     echo "$today $hms no flask running server !!!"

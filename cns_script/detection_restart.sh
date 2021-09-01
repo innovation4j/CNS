@@ -11,6 +11,7 @@ if [ x$tb == x$top ]; then
         #/home/iot/anaconda3/bin/python $homedir/cns_detection.py $linenumber 50 2000 $lineip$var
         #tmp="/home/iot/anaconda3/bin/python $homedir/cns_detection.py $linenumber 50 2000 $lineip$var"
         #echo $tmp
+        echo "$today $hms XXXXXX | sudo -S systemctl restart cns_detection_$lineip$var"
         echo $SUDOPW | sudo -S systemctl restart cns_detection_$lineip$var
     done
 # bottom 이면 cns_dection.py x4, x5, x6, x7 실행
@@ -19,6 +20,7 @@ elif [ x$tb == x$btm ]; then
         #/home/iot/anaconda3/bin/python $homedir/cns_detection.py $linenumber 50 2000 $lineip$var
         #tmp="/home/iot/anaconda3/bin/python $homedir/cns_detection.py $linenumber 50 2000 $lineip$var"
         #echo $tmp
+        echo "$today $hms XXXXXX | sudo -S systemctl restart cns_detection_$lineip$var"
         echo $SUDOPW | sudo -S systemctl restart cns_detection_$lineip$var
     done
 fi

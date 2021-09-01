@@ -7,13 +7,12 @@ source /home/iot/Documents/CNS/cns_script/header.sh
 echo -e "\n$today $hms [start] detection_stop.sh"
 
 for var in {1..7} ; do
-    echo "$today $hms $SUDOPW | sudo -S systemctl stop cns_detection_$lineip$var"
+    echo "$today $hms XXXXXX | sudo -S systemctl stop cns_detection_$lineip$var"
     echo $SUDOPW | sudo -S systemctl stop cns_detection_$lineip$var
 done
 
 pkill -9 -ef cns_detection.py
 echo "$today $hms pkill -9 -ef cns_detection.py"
-
 
 echo -e "$today $hms [done] detection_stop.sh \n"
 sleep 3s
