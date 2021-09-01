@@ -9,8 +9,10 @@ echo -e "\n$today $hms [start] detection_stop.sh"
 #pkill -9 -ef cns_detection.py
 #echo "$today $hms pkill -9 -ef cns_detection.py"
 
-echo "$today $hms $SUDOPW | sudo -S ssystemctl stop cns_detection*"
-echo $SUDOPW | sudo -S systemctl stop cns_detection*
+for var in {1..7} ; do
+    echo "$today $hms $SUDOPW | sudo -S systemctl stop cns_detection_$lineip$var"
+    echo $SUDOPW | sudo -S systemctl stop cns_detection_$lineip$var
+done
 
 echo -e "$today $hms [done] detection_stop.sh \n"
 sleep 3s
