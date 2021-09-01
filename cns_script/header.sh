@@ -18,6 +18,8 @@ today=$(date "+%Y%m%d")
 #echo today=$today
 yesterday=$(date -d yesterday +%Y%m%d)
 #echo yesterday=$yesterday
+twodaysago=$(date '+%Y%m%d' -d '2 days ago')
+#echo twodaysago=$twodaysago
 hms=$(date "+%H%M%S")
 #echo hms=$hms
 
