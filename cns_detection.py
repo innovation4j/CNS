@@ -100,7 +100,7 @@ def validationInput(inputArr):
     mkdir(today)
 
     return True
-print(f'#1 InputValidation Stand By......' )
+print(f'#1 InputValidation Stand By......123' )
 
 
 
