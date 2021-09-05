@@ -365,7 +365,6 @@ while success:
 
         roi = frame[points[0]:points[1], points[2]:points[3], :]
         plt.imshow(roi)
-        plt.show()
 
         roi =  cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)        
         result = checkTypeAB(roi)
