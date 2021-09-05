@@ -60,7 +60,7 @@ np.set_printoptions(suppress=True)
 # keras Load the model
 #model = tensorflow.keras.models.load_model('model_NP.h5') #model_NP
 model = tensorflow.keras.models.load_model('keras_model_20210824.h5')
-model_AB = tensorflow.keras.models.load_model('model_AB_20210828.h5')
+model_AB = tensorflow.keras.models.load_model('model_AB_20210904.h5')
 #model_AB = tensorflow.keras.models.load_model('model_AB.h5')
 # Create the array of the right shape
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
@@ -341,30 +341,35 @@ while success:
     frame = cv2.bitwise_and(frame, frame, mask=mask)
     # check Type A or B
     if (type_AB == ""):
+
+
         height, width, channels = frame.shape
-        # ASIS        
+        
+        
 
         # right 25%
         if ( settingSource[0] in ("t1","b4") ):
             print(f'Get right 25%' )
-            width_start = 0
-            width_end = np.int(width*1/4)
+            points = int(height/2), int(height/2+224), int(width-224), int(width)
         # left 25%
-        elif ( settingSource[0] in ("t3", "b1") ):
+        elif ( settingSource[0] in ("t2", "t3", "b1") ):
             print(f'Get left 25%' )
-            width_start = np.int(width*3/4)
-            width_end = np.int(width)
-        elif ( settingSource[0] in ("t2", "b2", "b3") ):
+            points = int(height/2), int(height/2+224), int(0), int(224)            
+        elif ( settingSource[0] in ("b2", "b3") ):
             print(f'Get center 25%' )
-            width_start = np.int(width*3/8)
-            width_end = np.int(width*5/8)
+            points = int(height/2), int(height/2+224), int(width/2), int(width/2+224)
         else :
-            print(f'Get right 25%' )
-            width_start = 0
-            width_end = np.int(width*1/4)
+            print(f'Get center 25%' )
+            points = int(height/2), int(height/2+224), int(width/2), int(width/2+224)
 
-        roi = frame[:, width_start:width_end,:] # 세로 전부 (:), 채널 전부 (:)
+
+        roi = frame[points[0]:points[1], points[2]:points[3], :]
+        plt.imshow(roi)
+        plt.show()
+
+        roi =  cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)        
         result = checkTypeAB(roi)
+
 
         if (round(float(result[0][0]),3) > 0.50):
             type_AB = "A"
