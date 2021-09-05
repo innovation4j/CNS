@@ -1,0 +1,8 @@
+[Unit]
+Description=Run aday-cron
+
+[Service]
+Type=simple
+Environment="SUDOPW=M@hle123"
+ExecStart=/home/iot/Documents/CNS/cns_script/run_1_a_day.sh
+User=iot
