@@ -1,0 +1,11 @@
+[Unit]
+Description=cns_detection_32
+
+[Service]
+User=iot
+WorkingDirectory=/home/iot/Documents/CNS/
+ExecStart=/home/iot/anaconda3/bin/python /home/iot/Documents/CNS/cns_detection.py mb3 50 2000 32
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
