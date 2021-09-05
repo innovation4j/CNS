@@ -295,11 +295,27 @@ print(f'#8. Threshold Stand By......' )
 
 def mkdir(today):
     global equipmentId, settingSource, imgLocBox, imgLocFind, imgLocBoxRef, imgLocFindRef, imgLocDetect 
-    imgLocBox    = f"image_storage/{equipmentId}/{today}/{settingSource[0]}/box/"
-    imgLocFind   = f"image_storage/{equipmentId}/{today}/{settingSource[0]}/find/"
-    imgLocBoxRef = f"image_storage/{equipmentId}/{today}/{settingSource[0]}_ref/box/"
-    imgLocFindRef= f"image_storage/{equipmentId}/{today}/{settingSource[0]}_ref/find/"
-    imgLocDetect = f"image_storage/{equipmentId}/{today}/detection/"
+
+    if ( settingSource[0] in ("t1","t2","t3") ):
+        imgLocBox    = f"image_storage/{equipmentId}_top/{today}/{settingSource[0]}/box/"
+        imgLocFind   = f"image_storage/{equipmentId}_top/{today}/{settingSource[0]}/find/"
+        imgLocBoxRef = f"image_storage/{equipmentId}_top/{today}/{settingSource[0]}_ref/box/"
+        imgLocFindRef= f"image_storage/{equipmentId}_top/{today}/{settingSource[0]}_ref/find/"
+        imgLocDetect = f"image_storage/{equipmentId}_top/{today}/detection/"
+    elif ( settingSource[0] in ("b1","b2","b3","b4") ):
+        imgLocBox    = f"image_storage/{equipmentId}_btm/{today}/{settingSource[0]}/box/"
+        imgLocFind   = f"image_storage/{equipmentId}_btm/{today}/{settingSource[0]}/find/"
+        imgLocBoxRef = f"image_storage/{equipmentId}_btm/{today}/{settingSource[0]}_ref/box/"
+        imgLocFindRef= f"image_storage/{equipmentId}_btm/{today}/{settingSource[0]}_ref/find/"
+        imgLocDetect = f"image_storage/{equipmentId}_btm/{today}/detection/"
+    else:
+        imgLocBox    = f"image_storage/{equipmentId}/{today}/{settingSource[0]}/box/"
+        imgLocFind   = f"image_storage/{equipmentId}/{today}/{settingSource[0]}/find/"
+        imgLocBoxRef = f"image_storage/{equipmentId}/{today}/{settingSource[0]}_ref/box/"
+        imgLocFindRef= f"image_storage/{equipmentId}/{today}/{settingSource[0]}_ref/find/"
+        imgLocDetect = f"image_storage/{equipmentId}/{today}/detection/"
+        
+
 
     if not os.path.exists(imgLocBox):
         os.makedirs(imgLocBox)
