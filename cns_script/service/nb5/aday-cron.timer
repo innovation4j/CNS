@@ -1,0 +1,10 @@
+[Unit]
+Description=Run aday-cron.service every midnight
+
+[Timer]
+OnCalendar=*-*-* 00:00:00
+Persistent=True
+Unit=aday-cron.service
+
+[Install]
+WantedBy=default.target

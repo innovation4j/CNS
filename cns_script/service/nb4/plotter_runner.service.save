@@ -1,0 +1,10 @@
+[Unit]
+Description=plotter_runner
+
+[Service]
+User=iot
+sudo nano /etc/systemd/system/plotter_runner.service
+ExecStart=/home/iot/anaconda3/bin/python /home/iot/Documents/CNS/app.py
+
+[Install]
+WantedBy=multi-user.target
