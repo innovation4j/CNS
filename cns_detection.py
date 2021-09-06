@@ -482,7 +482,7 @@ while success:
                     cv2.putText(frame, f"prediction :{objectFr[5]}", (10, 20),cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 255])            
                     storeImage(frame, 'find_0', size, objectFr[5], time_0.strftime("%Y%m%d%H%M%S"))
                     #export log
-                    CNS.EXP_LOG(equipmentId, f'{equipmentId}|{settingSource[0]}|{time_0.strftime("%Y%m%d")}|{time_0.strftime("%H%M%S")}|{objectFr[5]}|{size}|{x},{y}|{time_0.strftime("%Y%m%d%H%M%S")}_00_{objectFr[5]}_{size}.jpg')
+                    CNS.EXP_LOG(equipmentId, settingSource[0], f'{equipmentId}|{settingSource[0]}|{time_0.strftime("%Y%m%d")}|{time_0.strftime("%H%M%S")}|{objectFr[5]}|{size}|{x},{y}|{time_0.strftime("%Y%m%d%H%M%S")}_00_{objectFr[5]}_{size}.jpg')
                     CNS.LOG(equipmentId, settingSource[0], f'[10]	Detect process Success')                                        
                     #cv2.imshow('Input', frame)
                     time.sleep(3)

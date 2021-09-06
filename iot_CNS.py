@@ -37,8 +37,13 @@ def LOG(f_eqptid, f_dir, f_msg):
     current_date = datetime.datetime.now().strftime("%Y%m%d")
 
   if LOG_FLAG == FLAG_LOG:
-    sub_dir = f'{log_dir}/{f_eqptid}/{current_date}/{f_dir}'
-
+    if ( f_dir in ("t1","t2","t3") ):
+      sub_dir = f'{log_dir}/{f_eqptid}_top/{current_date}/{f_dir}'
+    elif ( f_dir in ("b1","b2","b3","b4") ):
+      sub_dir = f'{log_dir}/{f_eqptid}_btm/{current_date}/{f_dir}'
+    else:
+      sub_dir = f'{log_dir}/{f_eqptid}/{current_date}/{f_dir}'
+        
     if not os.path.exists(sub_dir):
       os.makedirs(sub_dir)
       
@@ -63,13 +68,18 @@ def LOG(f_eqptid, f_dir, f_msg):
   if LOG_FLAG == FLAG_PRINT:
     print(f_msg)
 
-def EXP_LOG(f_eqptid, f_msg):
+def EXP_LOG(f_eqptid, f_dir, f_msg):
   global current_date
   if current_date != datetime.datetime.now().strftime("%Y%m%d") : 
     current_date = datetime.datetime.now().strftime("%Y%m%d")
 
   if LOG_FLAG == FLAG_LOG:
-    sub_dir = f'{log_dir}/{f_eqptid}/{current_date}/EXP'
+    if ( f_dir in ("t1","t2","t3") ):
+      sub_dir = f'{log_dir}/{f_eqptid}_top/{current_date}/EXP'
+    elif ( f_dir in ("b1","b2","b3","b4") ):
+      sub_dir = f'{log_dir}/{f_eqptid}_btm/{current_date}/EXP'
+    else:
+      sub_dir = f'{log_dir}/{f_eqptid}/{current_date}/EXP'
     
     if not os.path.exists(sub_dir):
       os.makedirs(sub_dir)
