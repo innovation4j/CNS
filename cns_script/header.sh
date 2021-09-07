@@ -32,6 +32,7 @@ lineip=${HOSTNAME:5:1}
 
 #상단, 하단 구분 컴퓨터이름 TOP, BTM
 tb=${HOSTNAME:9:3}
+stb=`echo $tb | tr '[A-Z]' '[a-z]'`
 top="TOP"
 btm="BTM"
 #echo tb=$tb, top=$top
