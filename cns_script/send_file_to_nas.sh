@@ -25,7 +25,7 @@ echo "9. [start] send detected log to NAS"
 #dst3="cns3.iptime.org::backup/01.CNS_Logs/$linenumber/$yesterday"
 src3="$homedir/export_temp/logs/*"
 dst3="cns3.iptime.org::backup/01.CNS_Logs"
-rsync -avr --exclude="detection" $src3 $dst3
+rsync -avr --stats $src3 $dst3
 ##rclone delete remote:\$web/$linenumber
 ##rm -rf `ls | find $homedir/image_storage/mb4/* -name detection -prune -o -print`
 #rm -rf `ls | find $src3* -name detection -prune -o -print`
