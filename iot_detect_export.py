@@ -1,17 +1,18 @@
 import pymssql
 import sys
 
-if len(sys.argv) == 3:
+if len(sys.argv) == 4:
     inputArr = sys.argv
     equipmentId = inputArr[1]
     today = inputArr[2]
+    stb = inputArr[3]
 
     conn = pymssql.connect(host='cnssql01.database.windows.net', user='cnsadmin', password='MMSupp0rt2021', database='predict01')
     # Connection 으로부터 Cursor 생성
     cursor = conn.cursor()
 
 
-    f = open(f"/home/iot/Documents/CNS/logs/{equipmentId}/{str(today)[:8]}/EXP/{today}_{equipmentId}_EXP.log", 'r') #'/mb5/20210830/EXP/20210830_mb5_EXP.log' 
+    f = open(f"/home/iot/Documents/CNS/logs/{equipmentId}_{stb}/{str(today)[:8]}/EXP/{today}_{equipmentId}_EXP.log", 'r') #'/mb5/20210830/EXP/20210830_mb5_EXP.log' 
     
     while True:
         line = f.readline()
