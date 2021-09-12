@@ -13,13 +13,10 @@ $shomedir/move_to_export_temp.sh    &>> $lhomedir/log_$today"_"1day.log  # 6. B1
 $shomedir/detection_start.sh        &>> $lhomedir/log_$today"_"1day.log  # 7. R3: Process Start
 
 $shomedir/send_file_to_nas.sh       &>> $lhomedir/log_$today"_"1day.log  # A2: NAS Copy
-#$shomedir/delete_temp_file.sh      # A3: Delete -2 Day temp file
+$shomedir/delete_temp_file.sh       &>> $lhomedir/log_$today"_"1day.log  # A3: Delete -2 Day temp file
 
 #$shomedir/detection_restart.sh
 #$shomedir/header.sh
 #$shomedir/log
 #$shomedir/rpi_check.sh
 #$shomedir/rpi_restart.sh
-
-
-#2021-08-26 23:40 : NB3-11 에서 cns_script 정상동작 확인 함 (#표시된것 제외)
