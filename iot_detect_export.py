@@ -20,7 +20,7 @@ if len(sys.argv) == 4:
         print(line)
         lineList = line.rstrip('\n').split('|')
         print(lineList)
-        sql = "INSERT INTO MM_DETECT_INFO(WORK_CENTER,CAM_NO,D_DATE,D_TIME,PRED_SCORE,OBJECT_SIZE,OBJECT_AXIS,IMAGE_NAME,CREATE_DTIME) VALUES ('"+lineList[0]+"','"+lineList[1]+"','"+lineList[2]+"','"+lineList[3]+"','"+lineList[4]+"','"+lineList[5]+"','"+lineList[6]+"',trim('"+lineList[7]+"'), dateadd(hour, 9, getdate())) "
+        sql = "INSERT INTO MM_DETECT_INFO(WORK_CENTER,CAM_NO,D_DATE,D_TIME,PRED_SCORE,OBJECT_SIZE,OBJECT_AXIS,IMAGE_NAME,CREATE_DTIME, PRINT_YN, SWITCH_ONOFF) VALUES ('"+lineList[0]+"','"+lineList[1]+"','"+lineList[2]+"','"+lineList[3]+"','"+lineList[4]+"','"+lineList[5]+"','"+lineList[6]+"',trim('"+lineList[7]+"'), dateadd(hour, 9, getdate()), '"+lineList[8]+"', '"+lineList[9]+"')"
         print(sql)
         cursor.execute( sql )
 

@@ -1,3 +1,4 @@
+from os import O_NDELAY, wait
 from flask import Flask
 import serial
 import time
@@ -39,8 +40,19 @@ def render_script(id=None):
 
 @app.route("/status")
 def getStatus():
-    
-    return str(shm.buf[0])
+    # b'' --> switch off
+    # else --> switch on
+    # on - work   on - wait    off 
+    if(str(ser.read()) != "b''"): #on
+        if( shm.buf[0] == 0 ): #wait
+            #on - wait : waiting 
+            return CNS.FLAG_WAIT
+        elif(shm.buf[0] == 1 ): #wait
+            #on - work : on working
+            return CNS.FLAG_WORK
+    else: #off
+        return CNS.FLAG_SWC_OFF
+
 
 @app.route("/init")
 def setInit():
@@ -112,7 +124,6 @@ def plotter():
         speed = 3000
         x_point = request.args.get('x_point')
         wait_time = request.args.get('wait_time')
-        
         # Move X point
         Plotter_MoveX = f"G0 X{int(x_point)} F{int(speed)}"
         print("Plotter_MoveX" + Plotter_MoveX)
@@ -135,12 +146,10 @@ def plotter():
         print("Plotter_Init" + Plotter_Init)
         ser.write(Plotter_Init.encode())
         ser.write(b'\x0d\x0a')
-        
+
         time.sleep(3)
         Flask.Status = "Wait"
-        
         shm.buf[0] = CNS.FLAG_WAIT
-
         return "Plotting Complete"
     else:
         return "Plotting is not Available"

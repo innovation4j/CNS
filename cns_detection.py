@@ -24,7 +24,7 @@ import preSetting as PSET
 # Variable
 dim = (224, 224)
 global trackCount, equipmentId, rangeMin, rangeMax, id, settingSource, settingValue, imgLocBox, imgLocFind, imgLocBoxRef, imgLocFindRef, imgLocDetect, type_AB, startedTime, thresholdTime, printIP, today
-global objectFr, time_0, objectBox, mask, maskFlag, find
+global objectFr, time_0, objectBox, mask, maskFlag, find, printYn, switchOnOff
 trackCount = 0
 equipmentId = None
 rangeMin = 50
@@ -48,6 +48,8 @@ objectBox = None
 mask = None
 maskFlag = False
 find = False
+printYn = ""
+switchOnOff = ""
 # objectFr = (x, y, w, h, size, pred)
 # objectTo = (x, y, w, h, size, pred)
 objectFr = (0, 0, 0, 0, 0.0, 0.0)
@@ -177,6 +179,8 @@ print(f'#4 Store Image  Stand By......' )
 
 
 def objectProcessingSimple(objectFr):
+    global printYn
+    printYn = ""
     isContinue = False
     CNS.LOG(equipmentId, settingSource[0], f'[4]	Continued ')
     # distance
@@ -206,8 +210,9 @@ def objectProcessingSimple(objectFr):
     CNS.LOG(equipmentId, settingSource[0], f'[4-2]	PrintInfo	printTime	{printTime}	Position	{printPositionVal} ')
 
     if(printTime > 2 and printTime < 7):
-        #printInk(printPositionVal, printTime)
-        CNS.LOG(equipmentId, settingSource[0], f'[4-3]	Print Called')
+        printYn = printInk(printPositionVal, printTime)
+        CNS.LOG(equipmentId, settingSource[0], f'[4-3]	Print Called printYn{printYn}')
+        return True
     else:
         CNS.LOG(equipmentId, settingSource[0], f'[4-E1]	Print Time Out Of Range')
         return False
@@ -216,11 +221,15 @@ def objectProcessingSimple(objectFr):
 
 # 6. print
 def printInk(axis_x, float_sec):
+    global switchOnOff
+    switchOnOff = ""
     # Plotter_Xposition = int(camPosition) + int(objectX)
     CNS.LOG(equipmentId, settingSource[0], f'[5] Printing start')
     try:
         Plotter_Status = requests.get(f"{printIP}/status").text
-        if Plotter_Status == "0":
+
+        if Plotter_Status == 0: #waiting
+            switchOnOff = "on"
             print_order = f"{printIP}/?x_point={int(axis_x)}&wait_time={float_sec}"
             try:
                 res = requests.get(print_order)
@@ -230,13 +239,19 @@ def printInk(axis_x, float_sec):
                 try:
                     print_order = f"{printIP}/init"
                 except:
-                    CNS.LOG(equipmentId, settingSource[0], f'[5-E1]	Plotting is not Available')
+                    CNS.LOG(equipmentId, settingSource[0], f'[5-E1]	Plotter_Status : {Plotter_Status} Plotting is not Available')
                     return False
                 return False
-        else:
-            CNS.LOG(equipmentId, settingSource[0], f'[5-E2]	Plotter is Working')
+        elif Plotter_Status == 1: #working
+            switchOnOff = "on"
+            CNS.LOG(equipmentId, settingSource[0], f'[5-E2]	Plotter_Status : {Plotter_Status} Plotter is Working')
             return False
-        return True
+        elif Plotter_Status == 9: #off
+            switchOnOff = "of"
+            CNS.LOG(equipmentId, settingSource[0], f'[5-E2]	Plotter_Status : {Plotter_Status} Plotter is Working')
+            return False
+        else:
+            return True
     except:
         CNS.LOG(equipmentId, settingSource[0], f'[5-E3]	Plotter not response')
         return False
@@ -482,7 +497,7 @@ while success:
                     cv2.putText(frame, f"prediction :{objectFr[5]}", (10, 20),cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 255])            
                     storeImage(frame, 'find_0', size, objectFr[5], time_0.strftime("%Y%m%d%H%M%S"))
                     #export log
-                    CNS.EXP_LOG(equipmentId, settingSource[0], f'{equipmentId}|{settingSource[0]}|{time_0.strftime("%Y%m%d")}|{time_0.strftime("%H%M%S")}|{objectFr[5]}|{size}|{x},{y}|{time_0.strftime("%Y%m%d%H%M%S")}_00_{objectFr[5]}_{size}.jpg')
+                    CNS.EXP_LOG(equipmentId, settingSource[0], f'{equipmentId}|{settingSource[0]}|{time_0.strftime("%Y%m%d")}|{time_0.strftime("%H%M%S")}|{objectFr[5]}|{size}|{x},{y}|{time_0.strftime("%Y%m%d%H%M%S")}_00_{objectFr[5]}_{size}.jpg|{printYn}|{switchOnOff}')
                     CNS.LOG(equipmentId, settingSource[0], f'[10]	Detect process Success')                                        
                     #cv2.imshow('Input', frame)
                     time.sleep(3)
