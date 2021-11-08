@@ -43,15 +43,22 @@ def getStatus():
     # b'' --> switch off
     # else --> switch on
     # on - work   on - wait    off 
+    print ("0->"+str(ser.read()))
     if(str(ser.read()) != "b''"): #on
+        print ("1->"+str(ser.read()))
+
+        print ("2->"+str(shm.buf[0]))
         if( shm.buf[0] == 0 ): #wait
             #on - wait : waiting 
-            return CNS.FLAG_WAIT
+            print ("2->"+str(shm.buf[0]))
+            return str(CNS.FLAG_WAIT)
         elif(shm.buf[0] == 1 ): #wait
+            print ("3->"+str(shm.buf[0]))
             #on - work : on working
-            return CNS.FLAG_WORK
+            return str(CNS.FLAG_WORK)
     else: #off
-        return CNS.FLAG_SWC_OFF
+        print ("9->"+str(ser.read()))
+        return str(CNS.FLAG_SWC_OFF)
 
 
 @app.route("/init")
