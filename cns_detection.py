@@ -210,7 +210,10 @@ def objectProcessingSimple(objectFr):
     CNS.LOG(equipmentId, settingSource[0], f'[4-2]	PrintInfo	printTime	{printTime}	Position	{printPositionVal} ')
 
     if(printTime > 2 and printTime < 7 and objectFr[5] >= 0.99):
-        printYn = printInk(printPositionVal, printTime)
+        if(printInk(printPositionVal, printTime)):
+            printYn = "Y"
+        else:
+            printYn = "N"
         CNS.LOG(equipmentId, settingSource[0], f'[4-3]	Print Called printYn{printYn}')
         return True
     else:
@@ -228,7 +231,7 @@ def printInk(axis_x, float_sec):
     try:
         Plotter_Status = requests.get(f"{printIP}/status").text
 
-        if Plotter_Status == 0: #waiting
+        if Plotter_Status == "0": #waiting
             switchOnOff = "on"
             print_order = f"{printIP}/?x_point={int(axis_x)}&wait_time={float_sec}"
             try:
@@ -242,18 +245,19 @@ def printInk(axis_x, float_sec):
                     CNS.LOG(equipmentId, settingSource[0], f'[5-E1]	Plotter_Status : {Plotter_Status} Plotting is not Available')
                     return False
                 return False
-        elif Plotter_Status == 1: #working
+        elif Plotter_Status == "1": #working
             switchOnOff = "on"
             CNS.LOG(equipmentId, settingSource[0], f'[5-E2]	Plotter_Status : {Plotter_Status} Plotter is Working')
             return False
-        elif Plotter_Status == 9: #off
+        elif Plotter_Status == "9": #off
             switchOnOff = "of"
-            CNS.LOG(equipmentId, settingSource[0], f'[5-E2]	Plotter_Status : {Plotter_Status} Plotter is Working')
+            CNS.LOG(equipmentId, settingSource[0], f'[5-E3]	Plotter_Status : {Plotter_Status} Plotter is Offline')
             return False
         else:
-            return True
+            CNS.LOG(equipmentId, settingSource[0], f'[5-E4]	Undefined Error')
+            return False
     except:
-        CNS.LOG(equipmentId, settingSource[0], f'[5-E3]	Plotter not response')
+        CNS.LOG(equipmentId, settingSource[0], f'[5-E5]	Plotter not response')
         return False
 print(f'#6 Print Stand By......' )
 
