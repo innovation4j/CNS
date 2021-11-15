@@ -209,7 +209,7 @@ def objectProcessingSimple(objectFr):
 
     CNS.LOG(equipmentId, settingSource[0], f'[4-2]	PrintInfo	printTime	{printTime}	Position	{printPositionVal} ')
 
-    if(printTime > 2 and printTime < 7 and objectFr[5] >= 0.99):
+    if(printTime > 2 and printTime < 7 and objectFr[5] >= 0.92):
         if(printInk(printPositionVal, printTime)):
             printYn = "Y"
         else:
@@ -217,7 +217,7 @@ def objectProcessingSimple(objectFr):
         CNS.LOG(equipmentId, settingSource[0], f'[4-3]	Print Called printYn{printYn}')
         return True
     else:
-        CNS.LOG(equipmentId, settingSource[0], f'[4-E1]	Print Time Out Of Range of under 99%')
+        CNS.LOG(equipmentId, settingSource[0], f'[4-E1]	Print Time Out Of Range of under 92%')
         return False
 
     return True
@@ -468,7 +468,7 @@ while success:
             
             time_0 = datetime.datetime.now()
 
-            if( objectFr[5] > 0.90 ):
+            if( objectFr[5] > 0.92 ):
                 find = True
                 trackCount = 0
                 x, y, w, h, size = objectFr[0], objectFr[1], objectFr[2], objectFr[3], objectFr[4]
@@ -509,7 +509,7 @@ while success:
                 else:
                     CNS.LOG(equipmentId, settingSource[0], f'[99]	PrintError')
             
-            if ( 0.70 < objectFr[5] <= 0.90):
+            if ( 0.70 < objectFr[5] <= 0.92):
                 find = True
                 trackCount = 0
                 x, y, w, h, size = objectFr[0], objectFr[1], objectFr[2], objectFr[3], objectFr[4]
