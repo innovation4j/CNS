@@ -31,11 +31,13 @@ lineip=${HOSTNAME:5:1}
 #echo lineip=$lineip
 
 #상단, 하단 구분 컴퓨터이름 TOP, BTM
-tb=${HOSTNAME:9:2}
+tb=${HOSTNAME:9:3}
 
-if [ "$tb" == "bt" ]; then
+tb2=${HOSTNAME:9:2}
+
+if [ "$tb2" == "bt" ]; then
     stb="btm"
-elif [ "$tb" == "BT" ]; then
+elif [ "$tb2" == "BT" ]; then
     stb="btm"
 else 
     stb="top"
