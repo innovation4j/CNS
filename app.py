@@ -83,6 +83,17 @@ def setInit():
 # G81 raspberry pi on
 # G82 raspberry pi off, after 2 seconds raspberry pi on
 # G83 raspberry pi off, after 3 seconds raspberry pi on
+@app.route("/zero")
+def setZero():
+    # Init positionFlask.Status
+    Plotter_Init = 'G0 X0'
+    ser.write(Plotter_Init.encode())
+    ser.write(b'\x0d\x0a')
+    time.sleep(3)
+    Flask.Status = "Wait"
+    return 'zero'
+
+
 @app.route("/reset")
 def setReset():
     Flask.Status = "Work"

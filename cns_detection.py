@@ -31,7 +31,7 @@ rangeMin = 50
 rangeMax = 2000
 id = 14
 settingSource = ("", "")
-#settingValue (x축 시작위치, X축 변환값, Y축 변환값, x축 범위최소값, x축 범위 최대값)
+#settingValue (xÃà ½ÃÀÛÀ§Ä¡, XÃà º¯È¯°ª, YÃà º¯È¯°ª, xÃà ¹üÀ§ÃÖ¼Ò°ª, xÃà ¹üÀ§ ÃÖ´ë°ª)
 settingValue = (0, 0, 0, 0, 0)
 imgLocBox = ""
 imgLocFind = ""
@@ -60,14 +60,12 @@ global prediction, predictionResult, data, model_AB, model
 
 np.set_printoptions(suppress=True)
 # keras Load the model
-#model = tensorflow.keras.models.load_model('model_NP.h5') #model_NP
 model = tensorflow.keras.models.load_model('keras_model_20210824.h5')
 model_AB = tensorflow.keras.models.load_model('model_AB_20210904.h5')
-#model_AB = tensorflow.keras.models.load_model('model_AB.h5')
 # Create the array of the right shape
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 # set parameters for BackgroundSubtractorKNN
-prediction = None #model.prediction(data)
+prediction = None
 predictionResult = 0.0
 bg_subtractor = cv2.createBackgroundSubtractorKNN(detectShadows=True)
 history_length = 20
@@ -92,17 +90,16 @@ def validationInput(inputArr):
         rangeMax = 2000
         id = 0
 
-    print(f'equipmentId={equipmentId}, rangeMin~rangeMax:{rangeMin}~{rangeMax}, id={id}' )
-
+    #print(f'equipmentId={equipmentId}, rangeMin~rangeMax:{rangeMin}~{rangeMax}, id={id}' )
     settingSource, printIP = PSET.setSource(equipmentId, id)
     settingValue = PSET.setValue(equipmentId, id)
 
     today = datetime.datetime.now().strftime("%Y%m%d")
-    
-    mkdir(today)
+    if (imgLocBox ==""):
+        mkdir(today)
 
     return True
-print(f'#1 InputValidation Stand By......' )
+#print(f'#1 InputValidation Stand By......' )
 
 
 
@@ -139,7 +136,7 @@ def predict(box):
     np.argmax(prediction, axis=1)
     predictionResult = round(float(prediction[0][0]),3)
     return predictionResult
-print(f'#2 Predict Stand By......' )
+#print(f'#2 Predict Stand By......' )
 
 # 3. check Object
 def checkObject(w, h, box):
@@ -153,29 +150,30 @@ def checkObject(w, h, box):
     else: return 0
 
 
-print(f'#3 Object Check Stand By......' )
+#print(f'#3 Object Check Stand By......' )
 
 # 4. image Store
 def storeImage(image, type, size, pred, time):
     global equipmentId, settingSource, today
-
-    if today != datetime.datetime.now().strftime("%Y%m%d") : 
-        today = datetime.datetime.now().strftime("%Y%m%d")
-        mkdir(today)
+    
+    if (imgLocBox ==""):
+        if today != datetime.datetime.now().strftime("%Y%m%d") : 
+            today = datetime.datetime.now().strftime("%Y%m%d")
+            mkdir(today)
 
     if type=='box_0':
         cv2.imwrite(f'{imgLocBox}{time}_00_{pred}_{size}_box.jpg', image)
     if type=='find_0':
-        cv2.imwrite(f'{imgLocFind}{time}_00_{pred}_{size}.jpg', image)
+        #cv2.imwrite(f'{imgLocFind}{time}_00_{pred}_{size}.jpg', image)
         cv2.imwrite(f'{imgLocDetect}{time}_00_{pred}_{size}.jpg', image)
     if type=='boxRef':
         cv2.imwrite(f'{imgLocBoxRef}{time}_{pred}_{size}_box.jpg', image)
     if type=='findRef':
         cv2.imwrite(f'{imgLocFindRef}{time}_{pred}_{size}.jpg', image)
-    CNS.LOG(equipmentId, settingSource[0], f'[6]	Image Store Done    {type}')
+    #CNS.LOG(equipmentId, settingSource[0], f'[6]	Image Store Done    {type}')
 
     return True
-print(f'#4 Store Image  Stand By......' )
+#print(f'#4 Store Image  Stand By......' )
 
 
 def objectProcessingSimple(objectFr):
@@ -185,29 +183,36 @@ def objectProcessingSimple(objectFr):
     CNS.LOG(equipmentId, settingSource[0], f'[4]	Continued ')
     # distance
 
-    printLead = (1080-objectFr[1])*settingValue[1] + 700
-    printTime = round( ( printLead / 0.333 ) / 1000, 1)  #초로 변환
+    printLead = (1080-objectFr[1])*settingValue[1] + settingValue[5]
+    printTime = round( ((printLead/0.3)/1000)-0.4-1, 1)
+    # yÃà (500 * 0.31) + 1330 = 15+1330 = 1345 
+    # print time = ( 1345 / 300 ) =4.48 
+    # pan µ¿ÀÛ½Ã°£ 0.4ÃÊ
+    # pan ±×¸®´Â ½Ã°£ ??? ±×¸®´Â ½Ã°£ÀÇ Àý¹ÝÀº »©Áà¾ß ÇÑ´Ù. ±×¸®´Â Áß°£¿¡ ¿À¹°ÀÌ ÀÖ¾î¾ß ÇÔ
+    # ÇÁ·Î¼¼½º µ¿ÀÛ½Ã°£ ??? ¼³Á¤°ªÀ» Ã£¾Æ¾ß ÇÔ.
+    #
+    #
 
     if equipmentId == "mb3":
         if ( settingSource[0] in ("t1","t2","t3") ):
             printPositionVal = settingValue[0] + round((objectFr[0])*settingValue[1])# objectX + camera position value 
         elif ( settingSource[0] in ("b1","b2","b3","b4") ):
             printPositionVal = settingValue[0] + round((1920-objectFr[0])*settingValue[1])
-            #b1의 경우 0 부터 시작하고 450mm 레인지임 이고 X축이 0에서 얼마나 떨어져 있는지 설정해야 함
-            #X가 500px일 경우 1920에서 500을뺀 나머지 1420을 mm로 환산해서 셋팅해야함
-            #X가 500px일 경우 1420*0.21 = 298mm , 298mm+0mm 298mm이므로 플로터는 298mm로 이동해야 함.
-    elif equipmentId in ( "mb4", "mb5","mb5"):
+            #b1ÀÇ °æ¿ì 0 ºÎÅÍ ½ÃÀÛÇÏ°í 450mm ·¹ÀÎÁöÀÓ ÀÌ°í XÃàÀÌ 0¿¡¼­ ¾ó¸¶³ª ¶³¾îÁ® ÀÖ´ÂÁö ¼³Á¤ÇØ¾ß ÇÔ
+            #X°¡ 500pxÀÏ °æ¿ì 1920¿¡¼­ 500À»»« ³ª¸ÓÁö 1420À» mm·Î È¯»êÇØ¼­ ¼ÂÆÃÇØ¾ßÇÔ
+            #X°¡ 500pxÀÏ °æ¿ì 1420*0.21 = 298mm , 298mm+0mm 298mmÀÌ¹Ç·Î ÇÃ·ÎÅÍ´Â 298mm·Î ÀÌµ¿ÇØ¾ß ÇÔ.
+    elif equipmentId in ( "mb4", "mb5","mb6"):
         if ( settingSource[0] in ("t1","t2","t3") ):
             printPositionVal = settingValue[0] + round((objectFr[0])*settingValue[1])# objectX + camera position value 
         elif ( settingSource[0] in ("b1","b2","b3","b4") ):
-            #b1의 경우 100 부터 시작하고 400mm 레인지임 이고 X축이 100에서 얼마나 떨어져 있는지 설정해야 함
-            #X가 500px일 경우 1920에서 500을뺀 나머지 1420을 mm로 환산해서 100에 더해줘야 함.
-            #X가 500px일 경우 1420*0.21 = 298mm , 100mm+298mm 398mm이므로 플로터는 398mm로 이동해야 함.
+            #b1ÀÇ °æ¿ì 100 ºÎÅÍ ½ÃÀÛÇÏ°í 400mm ·¹ÀÎÁöÀÓ ÀÌ°í XÃàÀÌ 100¿¡¼­ ¾ó¸¶³ª ¶³¾îÁ® ÀÖ´ÂÁö ¼³Á¤ÇØ¾ß ÇÔ
+            #X°¡ 500pxÀÏ °æ¿ì 1920¿¡¼­ 500À»»« ³ª¸ÓÁö 1420À» mm·Î È¯»êÇØ¼­ 100¿¡ ´õÇØÁà¾ß ÇÔ.
+            #X°¡ 500pxÀÏ °æ¿ì 1420*0.21 = 298mm , 100mm+298mm 398mmÀÌ¹Ç·Î ÇÃ·ÎÅÍ´Â 398mm·Î ÀÌµ¿ÇØ¾ß ÇÔ.
             printPositionVal = settingValue[0] + round((1920-objectFr[0])*settingValue[1])
     else :
         return False
 
-    CNS.LOG(equipmentId, settingSource[0], f'[4-2]	PrintInfo	printTime	{printTime}	Position	{printPositionVal} ')
+    CNS.LOG(equipmentId, settingSource[0], f'[4-2]	PrintInfo	printLead {printLead} printTime	{printTime}	Position	{printPositionVal} ')
 
     if(printTime > 2 and printTime < 7 and objectFr[5] >= 0.92):
         if(printInk(printPositionVal, printTime)):
@@ -259,7 +264,7 @@ def printInk(axis_x, float_sec):
     except:
         CNS.LOG(equipmentId, settingSource[0], f'[5-E5]	Plotter not response')
         return False
-print(f'#6 Print Stand By......' )
+#print(f'#6 Print Stand By......' )
 
 
 # 7. reset
@@ -275,18 +280,18 @@ def resetStatus():
     if( type_AB != "" and startedTime != None):
         now = datetime.datetime.now()
         if ((now - startedTime).seconds/60 > 1 ):
-            print(f'startedTime : {startedTime}    now : {now} diff : {(now - startedTime).seconds}')
+            #print(f'startedTime : {startedTime}    now : {now} diff : {(now - startedTime).seconds}')
             type_AB = ""
             startedTime = None
 
     if( maskFlag == True and thresholdTime != None ):
         now = datetime.datetime.now()
         if ((now - thresholdTime).seconds/60 > 1 ):
-            print(f'thresholdTime : {thresholdTime}    now : {now} diff : {(now - thresholdTime).seconds}')
+            #print(f'thresholdTime : {thresholdTime}    now : {now} diff : {(now - thresholdTime).seconds}')
             maskFlag = False
 
     return True
-print(f'#7 Status reset Stand By......' )
+#print(f'#7 Status reset Stand By......' )
 
 
 
@@ -296,9 +301,9 @@ def threshold(frame):
     thresholdTime = datetime.datetime.now()
     # 1.threshold  
     # if pixel is > 80, pixel value = 255 else pixel value 0
-    print(f'frame {frame.shape}')
+    #print(f'frame {frame.shape}')
     grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    print(f'grayFrame {grayFrame.shape}')
+    #print(f'grayFrame {grayFrame.shape}')
     #plt.imshow(grayFrame, cmap='gray')
     (T, threshold) = cv2.threshold(grayFrame, 80, 255, cv2.THRESH_BINARY)
     thresh_with_blur = cv2.medianBlur(threshold, 15, 0)
@@ -310,7 +315,7 @@ def threshold(frame):
     #plt.imshow(mask, cmap='gray')
 
     return True
-print(f'#8. Threshold Stand By......' )
+#print(f'#8. Threshold Stand By......' )
 
 def mkdir(today):
     global equipmentId, settingSource, imgLocBox, imgLocFind, imgLocBoxRef, imgLocFindRef, imgLocDetect 
@@ -348,7 +353,7 @@ def mkdir(today):
         os.makedirs(imgLocDetect)
     return True
 
-print(f'#All Stand By..................................................' )
+#print(f'#All Stand By..................................................' )
 
 ######################## main process start #############################
 validationInput(sys.argv)
@@ -371,53 +376,38 @@ while success:
 
     if(maskFlag==False):
         threshold(frame)
-        print(f'#threshold Stand By..................................................' )
+        #print(f'#threshold Stand By..................................................' )
 
     frame = cv2.bitwise_and(frame, frame, mask=mask)
     # check Type A or B
     if (type_AB == ""):
-
-
         height, width, channels = frame.shape
-        
-        
-
         # right 25%
         if ( settingSource[0] in ("t1","b4") ):
-            print(f'Get right 25%' )
+            #print(f'Get right 25%' )
             points = int(height/2), int(height/2+224), int(width-224), int(width)
         # left 25%
         elif ( settingSource[0] in ("t2", "t3", "b1") ):
-            print(f'Get left 25%' )
+            #print(f'Get left 25%' )
             points = int(height/2), int(height/2+224), int(0), int(224)            
         elif ( settingSource[0] in ("b2", "b3") ):
-            print(f'Get center 25%' )
+            #print(f'Get center 25%' )
             points = int(height/2), int(height/2+224), int(width/2), int(width/2+224)
         else :
-            print(f'Get center 25%' )
+            #print(f'Get center 25%' )
             points = int(height/2), int(height/2+224), int(width/2), int(width/2+224)
-
-
         roi = frame[points[0]:points[1], points[2]:points[3], :]
         plt.imshow(roi)
-
         roi =  cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)        
         result = checkTypeAB(roi)
-
 
         if (round(float(result[0][0]),3) > 0.50):
             type_AB = "A"
             startedTime = datetime.datetime.now()
-            print(f'Type A : {round(float(result[0][0])*100,3)}% {type_AB}' )
-            print(f'Type B : {round(float(result[0][1])*100,3)}%' )
-            print(f'startedTime......{startedTime}' )        
         elif (round(float(result[0][0]),3) <= 0.50):
             type_AB = "B"
             #type_AB = "A"
             startedTime = datetime.datetime.now()
-            print(f'Type A : {round(float(result[0][0])*100,3)}%' )
-            print(f'Type B : {round(float(result[0][1])*100,3)}% {type_AB}' )
-            print(f'startedTime......{startedTime}' )        
         CNS.LOG(equipmentId, settingSource[0], f'{startedTime} , Type_AB : {round(float(result[0][0]),3)}% {type_AB}')    
 
     if( type_AB == "A"):
@@ -429,14 +419,14 @@ while success:
         cv2.dilate(thresh, dilate_kernel, thresh, iterations=2)
         contours, hier = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        #최초발견
+        #ÃÖÃÊ¹ß°ß
         if(find == False):
             objectFr = (0, 0, 0, 0, 0.0, 0.0)
-            #가장 점수가 높은 object 추출
-            
+            #°¡Àå Á¡¼ö°¡ ³ôÀº object ÃßÃâ
             for detected in contours:
                 size = cv2.contourArea(detected)
                 if (rangeMin<size<rangeMax):
+
                     x, y, w, h = cv2.boundingRect(detected)
 
                     boxY = y - h
@@ -455,9 +445,10 @@ while success:
                     if(boxY+boxH > 1080):
                         boxH = 1080 - boxY
                     
-                    #프레임에서 박스 추출
+                    #ÇÁ·¹ÀÓ¿¡¼­ ¹Ú½º ÃßÃâ
                     box = frame[boxY:boxY+boxH,boxX:boxX+boxW]
                     pred = checkObject(w, h, box)
+                    #CNS.LOG(equipmentId, settingSource[0], f'[0]	{pred}')                    
                     if( objectFr[5] == 0.0):
                         objectFr = (x, y, w, h, size, pred)  
                         objectBox = box
@@ -469,6 +460,7 @@ while success:
             time_0 = datetime.datetime.now()
 
             if( objectFr[5] > 0.92 ):
+
                 find = True
                 trackCount = 0
                 x, y, w, h, size = objectFr[0], objectFr[1], objectFr[2], objectFr[3], objectFr[4]
@@ -495,7 +487,7 @@ while success:
                     storeImage(objectBox, 'box_0', size, objectFr[5], time_0.strftime("%Y%m%d%H%M%S"))
                     CNS.LOG(equipmentId, settingSource[0], f'[1]	FirstFind	pred	{objectFr[5]}	(x,y,w,h)	{x, y, w, h}	objectFr	{objectFr}	time_00	{time_0}')
 
-                    #find image 저장 
+                    #find image ÀúÀå 
                     cv2.rectangle(frame, (angleX1,angleY1), (angleX2, angleY2), (0, 0, 255), 1)
                     cv2.putText(frame, f"x:{x},:y {y}, size:{size}", (angleX1, angleY2),cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 255])            
                     cv2.putText(frame, f"prediction :{objectFr[5]}", (10, 20),cv2.FONT_HERSHEY_SIMPLEX, 1, [0, 0, 255])            

@@ -23,6 +23,24 @@ elif [ x$tb == x$btm ]; then
         echo "$today $hms XXXXXX | sudo -S systemctl restart cns_detection_$lineip$var"
         echo $SUDOPW | sudo -S systemctl restart cns_detection_$lineip$var
     done
+# bottom1 이면 cns_dection.py x4, x5 실행
+elif [ x$tb == x$bt1 ]; then
+    for var in {4..5} ; do
+        #/home/iot/anaconda3/bin/python $homedir/cns_detection.py $linenumber 50 2000 $lineip$var
+        #tmp="/home/iot/anaconda3/bin/python $homedir/cns_detection.py $linenumber 50 2000 $lineip$var"
+        #echo $tmp
+        echo "$today $hms XXXXXX | sudo -S systemctl restart cns_detection_$lineip$var"
+        echo $SUDOPW | sudo -S systemctl restart cns_detection_$lineip$var
+    done
+# bottom2 이면 cns_dection.py x6, x7 실행
+elif [ x$tb == x$bt2 ]; then
+    for var in {6..7} ; do
+        #/home/iot/anaconda3/bin/python $homedir/cns_detection.py $linenumber 50 2000 $lineip$var
+        #tmp="/home/iot/anaconda3/bin/python $homedir/cns_detection.py $linenumber 50 2000 $lineip$var"
+        #echo $tmp
+        echo "$today $hms XXXXXX | sudo -S systemctl restart cns_detection_$lineip$var"
+        echo $SUDOPW | sudo -S systemctl restart cns_detection_$lineip$var
+    done
 fi
 echo -e "$today $hms [done] detection_restart.sh \n"
 sleep 3s
