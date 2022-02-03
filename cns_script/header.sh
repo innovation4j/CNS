@@ -35,7 +35,8 @@ tb=${HOSTNAME:9:3}
 stb=`echo $tb | tr '[A-Z]' '[a-z]'`
 top="TOP"
 btm="BTM"
-#echo tb=$tb, top=$top
+bt1="bt1"
+bt2="bt2"
 
 #app.py 실행서버 구분
 app=${HOSTNAME:12:1}
