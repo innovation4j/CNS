@@ -40,8 +40,10 @@ def LOG(f_eqptid, f_dir, f_msg):
   if LOG_FLAG == FLAG_LOG:
     if ( f_dir in ("t1","t2","t3") ):
       sub_dir = f'{log_dir}/{f_eqptid}_top/{current_date}/{f_dir}'
-    elif ( f_dir in ("b1","b2","b3","b4") ):
+    elif ( f_dir in ("b1","b2") ):
       sub_dir = f'{log_dir}/{f_eqptid}_btm/{current_date}/{f_dir}'
+    elif ( f_dir in ("b3","b4") ):
+      sub_dir = f'{log_dir}/{f_eqptid}_btm2/{current_date}/{f_dir}'
     else:
       sub_dir = f'{log_dir}/{f_eqptid}/{current_date}/{f_dir}'
         
